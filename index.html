@@ -1,0 +1,491 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Quiniela Mundial 2026</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:ital,wght@0,300;0,400;0,500;0,600;1,400&display=swap" rel="stylesheet">
+<style>
+:root{
+  --verde:#00A86B;--verde-d:#007A4E;--verde-bg:rgba(0,168,107,0.1);
+  --oro:#F0A500;--plata:#9BA3AF;--bronce:#C07840;
+  --bg:#0C0E12;--bg2:#141820;--bg3:#1C2230;--bg4:#222A3A;
+  --borde:rgba(255,255,255,0.07);--borde2:rgba(255,255,255,0.12);
+  --texto:#F0F2F5;--muted:#7A8494;--muted2:#4A5468;
+  --font-d:'Bebas Neue',sans-serif;--font-b:'DM Sans',sans-serif;
+  --r:10px;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--texto);font-family:var(--font-b);font-size:14px;min-height:100vh}
+
+/* HEADER */
+.site-header{
+  background:linear-gradient(160deg,#051f10 0%,#0C1018 55%,#0C0E12 100%);
+  border-bottom:1px solid var(--borde);padding:2rem 1rem 1.75rem;text-align:center;
+  position:relative;overflow:hidden;
+}
+.site-header::before{
+  content:'';position:absolute;inset:0;opacity:.5;
+  background:radial-gradient(ellipse at 50% 0%,rgba(0,168,107,0.15) 0%,transparent 70%);
+  pointer-events:none;
+}
+.badge{display:inline-block;background:rgba(0,168,107,0.12);border:1px solid rgba(0,168,107,0.25);
+  color:var(--verde);font-size:11px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;
+  padding:3px 14px;border-radius:20px;margin-bottom:.85rem;}
+.site-header h1{font-family:var(--font-d);font-size:clamp(2.2rem,7vw,4rem);letter-spacing:.05em;
+  color:#fff;text-shadow:0 0 50px rgba(0,168,107,0.25);line-height:1;margin-bottom:.25rem;}
+.site-header .sub{font-size:12px;color:var(--muted);letter-spacing:.08em;text-transform:uppercase;}
+
+/* NAV */
+nav{display:flex;justify-content:center;gap:4px;padding:.6rem 1rem;background:var(--bg2);
+  border-bottom:1px solid var(--borde);position:sticky;top:0;z-index:200;flex-wrap:wrap;}
+.nb{padding:6px 16px;font-size:11px;font-weight:600;letter-spacing:.06em;border:1px solid transparent;
+  border-radius:6px;cursor:pointer;background:transparent;color:var(--muted);
+  transition:all .18s;font-family:var(--font-b);text-transform:uppercase;}
+.nb:hover{color:var(--texto);background:var(--bg3)}
+.nb.on{background:var(--verde);color:#fff;border-color:var(--verde-d)}
+
+/* MAIN */
+main{max-width:1000px;margin:0 auto;padding:1.5rem 1rem 3rem}
+.page{display:none}.page.on{display:block}
+
+/* PHASE TABS */
+.phase-bar{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:1.25rem}
+.pb{padding:5px 14px;font-size:11px;font-weight:600;letter-spacing:.05em;border:1px solid var(--borde2);
+  border-radius:20px;cursor:pointer;background:transparent;color:var(--muted);
+  transition:all .15s;font-family:var(--font-b);}
+.pb:hover{background:var(--bg3);color:var(--texto)}
+.pb.on{background:var(--bg3);border-color:var(--verde);color:var(--verde)}
+
+/* STATS */
+.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:10px;margin-bottom:1.75rem}
+.sc{background:var(--bg2);border:1px solid var(--borde);border-radius:var(--r);padding:1rem 1.1rem;text-align:center}
+.sc .sl{font-size:10px;text-transform:uppercase;letter-spacing:.08em;color:var(--muted);margin-bottom:5px}
+.sc .sv{font-family:var(--font-d);font-size:1.9rem;letter-spacing:.03em}
+.sc .sv.g{color:var(--verde)}
+
+/* SECTION TITLE */
+.st{font-family:var(--font-d);font-size:1.5rem;letter-spacing:.05em;margin-bottom:1rem;
+  display:flex;align-items:center;gap:10px;}
+.st::after{content:'';flex:1;height:1px;background:var(--borde)}
+
+/* RANKING */
+.rl{display:flex;flex-direction:column;gap:7px;margin-bottom:1.75rem}
+.ri{display:grid;grid-template-columns:50px 1fr auto;align-items:center;gap:10px;
+  background:var(--bg2);border:1px solid var(--borde);border-radius:var(--r);
+  padding:12px 14px;transition:border-color .18s;}
+.ri:hover{border-color:var(--borde2)}
+.ri.r1{border-color:rgba(240,165,0,.3);background:rgba(240,165,0,.04)}
+.ri.r2{border-color:rgba(155,163,175,.25)}
+.ri.r3{border-color:rgba(192,120,64,.25)}
+.rpos{width:38px;height:38px;border-radius:50%;display:flex;align-items:center;justify-content:center;
+  font-family:var(--font-d);font-size:1.15rem;flex-shrink:0;}
+.r1 .rpos{background:rgba(240,165,0,.12);color:var(--oro)}
+.r2 .rpos{background:rgba(155,163,175,.1);color:var(--plata)}
+.r3 .rpos{background:rgba(192,120,64,.1);color:var(--bronce)}
+.ri:not(.r1):not(.r2):not(.r3) .rpos{background:var(--bg3);color:var(--muted)}
+.rname{font-weight:500;font-size:14px;margin-bottom:2px}
+.rbr{font-size:11px;color:var(--muted);display:flex;gap:10px;flex-wrap:wrap}
+.rpt{text-align:right}
+.rpt .pn{font-family:var(--font-d);font-size:1.75rem;color:var(--verde);line-height:1}
+.rpt .pl{font-size:10px;color:var(--muted);text-transform:uppercase;letter-spacing:.06em}
+
+/* MATCH CARDS */
+.matches-wrap{display:flex;flex-direction:column;gap:6px;margin-bottom:1.5rem}
+.day-hdr{font-family:var(--font-d);font-size:1.1rem;letter-spacing:.06em;
+  color:var(--verde);padding:.75rem 0 .25rem;text-transform:uppercase;}
+.phase-hdr{font-size:10px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;
+  color:var(--muted);padding:.5rem 0 .2rem;}
+.mc{display:grid;grid-template-columns:1fr auto 1fr;align-items:center;gap:8px;
+  background:var(--bg2);border:1px solid var(--borde);border-radius:var(--r);
+  padding:10px 14px;transition:border-color .18s;}
+.mc:hover{border-color:var(--borde2)}
+.mc.played{border-color:rgba(0,168,107,.2)}
+.mc.live{border-color:rgba(240,165,0,.4);background:rgba(240,165,0,.03)}
+.team-l{text-align:right}.team-r{text-align:left}
+.team-name{font-weight:500;font-size:13px;line-height:1.2}
+.team-flag{font-size:1.4rem;display:block;margin-bottom:2px}
+.team-l .team-flag{text-align:right}
+.team-r .team-flag{text-align:left}
+.mc-center{display:flex;flex-direction:column;align-items:center;gap:4px;min-width:80px}
+.score-box{display:flex;align-items:center;gap:6px;
+  background:var(--bg3);border-radius:8px;padding:6px 12px;}
+.sn{font-family:var(--font-d);font-size:1.4rem;line-height:1}
+.ss{color:var(--muted);font-size:12px}
+.time-box{font-size:11px;color:var(--muted);text-align:center;line-height:1.3}
+.time-box .t{font-weight:600;color:var(--texto);font-size:12px}
+.time-box .venue{font-size:10px;color:var(--muted2)}
+.live-dot{display:inline-block;width:6px;height:6px;background:var(--oro);
+  border-radius:50%;margin-right:4px;animation:blink 1s infinite}
+@keyframes blink{0%,100%{opacity:1}50%{opacity:.2}}
+.tbd{font-size:11px;color:var(--muted);font-style:italic}
+
+/* PRONÓSTICOS TABLE */
+.ptbl-wrap{overflow-x:auto;margin-bottom:1.5rem}
+.ptbl{width:100%;border-collapse:collapse;min-width:500px}
+.ptbl th{background:var(--bg3);color:var(--muted);font-size:10px;font-weight:600;
+  text-transform:uppercase;letter-spacing:.07em;padding:7px 10px;
+  border-bottom:1px solid var(--borde);text-align:center;white-space:nowrap;}
+.ptbl th.partido{text-align:left;min-width:160px}
+.ptbl td{padding:7px 10px;border-bottom:1px solid var(--borde);font-size:12px;text-align:center;vertical-align:middle;}
+.ptbl td.partido-cell{text-align:left}
+.ptbl .gh td{background:rgba(0,168,107,.07);color:var(--verde);font-size:10px;
+  font-weight:600;letter-spacing:.07em;padding:5px 10px;}
+.sd{font-family:var(--font-d);font-size:1rem;letter-spacing:.04em}
+.sd.real{color:var(--oro)}
+.hit5{color:var(--verde)}.hit3{color:var(--verde)}.hit1{color:#60a8e8}
+.pts-b{display:inline-block;background:rgba(0,168,107,.12);color:var(--verde);
+  font-size:10px;font-weight:600;padding:1px 6px;border-radius:5px;margin-top:2px;}
+
+/* EMPTY */
+.empty{text-align:center;padding:3rem 1rem;color:var(--muted);font-size:13px}
+.empty .ei{font-size:2rem;margin-bottom:.5rem;opacity:.4;display:block}
+
+/* NOTA */
+.nota{font-size:11px;color:var(--muted);background:var(--bg2);border:1px solid var(--borde);
+  border-radius:var(--r);padding:10px 14px;margin-bottom:1.25rem;line-height:1.6;}
+.nota b{color:var(--texto)}
+
+/* FOOTER */
+footer{text-align:center;padding:1.5rem;color:var(--muted2);font-size:11px;border-top:1px solid var(--borde)}
+
+@keyframes fadeUp{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
+.ri,.mc,.sc{animation:fadeUp .25s ease both}
+
+@media(max-width:580px){
+  .rbr{display:none}.team-name{font-size:12px}.sn{font-size:1.2rem}
+  .nb{padding:5px 10px;font-size:10px}.mc-center{min-width:68px}
+}
+</style>
+</head>
+<body>
+<header class="site-header">
+  <div class="badge" id="badge-fase">Previo al torneo</div>
+  <h1>Quiniela Mundial 2026</h1>
+  <p class="sub">USA &middot; Canadá &middot; México &nbsp;|&nbsp; 11 Jun – 19 Jul 2026</p>
+</header>
+<nav>
+  <button class="nb on" onclick="showPage('ranking',this)">🏆 Ranking</button>
+  <button class="nb" onclick="showPage('partidos',this)">📅 Partidos</button>
+  <button class="nb" onclick="showPage('pronosticos',this)">📋 Pronósticos</button>
+</nav>
+<main>
+  <div id="page-ranking" class="page on">
+    <div class="stats" id="stats-wrap"></div>
+    <div class="st">Tabla de posiciones</div>
+    <div class="rl" id="ranking-wrap"></div>
+  </div>
+  <div id="page-partidos" class="page">
+    <div class="nota"><b>Hora local Chile (GMT-4).</b> Las fases eliminatorias muestran el cruce pendiente hasta que el organizador confirme los equipos.</div>
+    <div class="phase-bar" id="phase-bar-partidos"></div>
+    <div id="partidos-wrap"></div>
+  </div>
+  <div id="page-pronosticos" class="page">
+    <div class="nota">Marcador pronosticado vs resultado real. 
+      <span class="hit3">■ +3</span> ganador/empate &nbsp;
+      <span class="hit1">■ +1</span> goles exactos</div>
+    <div class="phase-bar" id="phase-bar-pron"></div>
+    <div id="pronosticos-wrap"></div>
+  </div>
+</main>
+<footer>Quiniela Mundial 2026 &mdash; actualizado por el organizador &mdash; hora local Chile</footer>
+
+<script src="datos.js"></script>
+<script>
+// ── Todos los partidos del torneo ──────────────────────────────────────────
+const PARTIDOS = {
+  grupos:[
+    {g:"A",h:"México",hf:"🇲🇽",a:"Chequia",af:"🇨🇿",fecha:"Jue 11 Jun",hora:"15:00",sede:"Azteca, Ciudad de México",gl:null,gv:null},
+    {g:"A",h:"Corea del Sur",hf:"🇰🇷",a:"Sudáfrica",af:"🇿🇦",fecha:"Vie 12 Jun",hora:"22:00",sede:"Akron, Zapopan",gl:null,gv:null},
+    {g:"A",h:"Chequia",hf:"🇨🇿",a:"Sudáfrica",af:"🇿🇦",fecha:"Mié 18 Jun",hora:"12:00",sede:"Mercedes-Benz, Atlanta",gl:null,gv:null},
+    {g:"A",h:"México",hf:"🇲🇽",a:"Corea del Sur",af:"🇰🇷",fecha:"Jue 19 Jun",hora:"21:00",sede:"Akron, Zapopan",gl:null,gv:null},
+    {g:"A",h:"Chequia",hf:"🇨🇿",a:"México",af:"🇲🇽",fecha:"Mié 25 Jun",hora:"21:00",sede:"Azteca, Ciudad de México",gl:null,gv:null},
+    {g:"A",h:"Sudáfrica",hf:"🇿🇦",a:"Corea del Sur",af:"🇰🇷",fecha:"Mié 25 Jun",hora:"21:00",sede:"BBVA, Guadalupe",gl:null,gv:null},
+    {g:"B",h:"Canadá",hf:"🇨🇦",a:"Bosnia-Herz.",af:"🇧🇦",fecha:"Jue 12 Jun",hora:"15:00",sede:"BMO Field, Toronto",gl:null,gv:null},
+    {g:"B",h:"Qatar",hf:"🇶🇦",a:"Suiza",af:"🇨🇭",fecha:"Vie 13 Jun",hora:"15:00",sede:"Levi's Stadium, Santa Clara",gl:null,gv:null},
+    {g:"B",h:"Suiza",hf:"🇨🇭",a:"Bosnia-Herz.",af:"🇧🇦",fecha:"Mié 18 Jun",hora:"15:00",sede:"SoFi Stadium, Inglewood",gl:null,gv:null},
+    {g:"B",h:"Canadá",hf:"🇨🇦",a:"Qatar",af:"🇶🇦",fecha:"Jue 19 Jun",hora:"18:00",sede:"BC Place, Vancouver",gl:null,gv:null},
+    {g:"B",h:"Suiza",hf:"🇨🇭",a:"Canadá",af:"🇨🇦",fecha:"Mar 24 Jun",hora:"15:00",sede:"BC Place, Vancouver",gl:null,gv:null},
+    {g:"B",h:"Bosnia-Herz.",hf:"🇧🇦",a:"Qatar",af:"🇶🇦",fecha:"Mar 24 Jun",hora:"15:00",sede:"Lumen Field, Seattle",gl:null,gv:null},
+    {g:"C",h:"Brasil",hf:"🇧🇷",a:"Marruecos",af:"🇲🇦",fecha:"Sáb 13 Jun",hora:"18:00",sede:"MetLife, Nueva Jersey",gl:null,gv:null},
+    {g:"C",h:"Haití",hf:"🇭🇹",a:"Escocia",af:"🏴󠁧󠁢󠁳󠁣󠁴󠁿",fecha:"Dom 14 Jun",hora:"21:00",sede:"Gillette, Foxborough",gl:null,gv:null},
+    {g:"C",h:"Brasil",hf:"🇧🇷",a:"Haití",af:"🇭🇹",fecha:"Vie 20 Jun",hora:"18:00",sede:"Gillette, Foxborough",gl:null,gv:null},
+    {g:"C",h:"Escocia",hf:"🏴󠁧󠁢󠁳󠁣󠁴󠁿",a:"Marruecos",af:"🇲🇦",fecha:"Vie 20 Jun",hora:"21:00",sede:"Lincoln Financial, Filadelfia",gl:null,gv:null},
+    {g:"C",h:"Escocia",hf:"🏴󠁧󠁢󠁳󠁣󠁴󠁿",a:"Brasil",af:"🇧🇷",fecha:"Mié 25 Jun",hora:"18:00",sede:"Hard Rock, Miami",gl:null,gv:null},
+    {g:"C",h:"Marruecos",hf:"🇲🇦",a:"Haití",af:"🇭🇹",fecha:"Mié 25 Jun",hora:"18:00",sede:"Mercedes-Benz, Atlanta",gl:null,gv:null},
+    {g:"D",h:"EE.UU.",hf:"🇺🇸",a:"Paraguay",af:"🇵🇾",fecha:"Vie 13 Jun",hora:"21:00",sede:"SoFi Stadium, Inglewood",gl:null,gv:null},
+    {g:"D",h:"Australia",hf:"🇦🇺",a:"Turquía",af:"🇹🇷",fecha:"Sáb 14 Jun",hora:"00:00",sede:"BC Place, Vancouver",gl:null,gv:null},
+    {g:"D",h:"Turquía",hf:"🇹🇷",a:"Paraguay",af:"🇵🇾",fecha:"Jue 19 Jun",hora:"00:00",sede:"Levi's Stadium, Santa Clara",gl:null,gv:null},
+    {g:"D",h:"EE.UU.",hf:"🇺🇸",a:"Australia",af:"🇦🇺",fecha:"Jue 19 Jun",hora:"15:00",sede:"Lumen Field, Seattle",gl:null,gv:null},
+    {g:"D",h:"Turquía",hf:"🇹🇷",a:"EE.UU.",af:"🇺🇸",fecha:"Vie 26 Jun",hora:"22:00",sede:"SoFi Stadium, Inglewood",gl:null,gv:null},
+    {g:"D",h:"Paraguay",hf:"🇵🇾",a:"Australia",af:"🇦🇺",fecha:"Vie 26 Jun",hora:"22:00",sede:"Levi's Stadium, Santa Clara",gl:null,gv:null},
+    {g:"E",h:"Alemania",hf:"🇩🇪",a:"Curazao",af:"🇨🇼",fecha:"Sáb 14 Jun",hora:"13:00",sede:"NRG Stadium, Houston",gl:null,gv:null},
+    {g:"E",h:"C. Marfil",hf:"🇨🇮",a:"Ecuador",af:"🇪🇨",fecha:"Dom 15 Jun",hora:"19:00",sede:"Lincoln Financial, Filadelfia",gl:null,gv:null},
+    {g:"E",h:"Alemania",hf:"🇩🇪",a:"C. Marfil",af:"🇨🇮",fecha:"Sáb 21 Jun",hora:"18:00",sede:"BMO Field, Toronto",gl:null,gv:null},
+    {g:"E",h:"Ecuador",hf:"🇪🇨",a:"Curazao",af:"🇨🇼",fecha:"Sáb 21 Jun",hora:"20:00",sede:"Arrowhead, Kansas City",gl:null,gv:null},
+    {g:"E",h:"Ecuador",hf:"🇪🇨",a:"Alemania",af:"🇩🇪",fecha:"Vie 26 Jun",hora:"18:00",sede:"MetLife, Nueva Jersey",gl:null,gv:null},
+    {g:"E",h:"Curazao",hf:"🇨🇼",a:"C. Marfil",af:"🇨🇮",fecha:"Vie 26 Jun",hora:"18:00",sede:"Lincoln Financial, Filadelfia",gl:null,gv:null},
+    {g:"F",h:"Países Bajos",hf:"🇳🇱",a:"Japón",af:"🇯🇵",fecha:"Dom 15 Jun",hora:"18:00",sede:"AT&T Stadium, Arlington",gl:null,gv:null},
+    {g:"F",h:"Suecia",hf:"🇸🇪",a:"Túnez",af:"🇹🇳",fecha:"Dom 15 Jun",hora:"22:00",sede:"BBVA, Guadalupe",gl:null,gv:null},
+    {g:"F",h:"Países Bajos",hf:"🇳🇱",a:"Suecia",af:"🇸🇪",fecha:"Vie 20 Jun",hora:"13:00",sede:"NRG Stadium, Houston",gl:null,gv:null},
+    {g:"F",h:"Túnez",hf:"🇹🇳",a:"Japón",af:"🇯🇵",fecha:"Vie 20 Jun",hora:"00:00",sede:"BBVA, Guadalupe",gl:null,gv:null},
+    {g:"F",h:"Túnez",hf:"🇹🇳",a:"Países Bajos",af:"🇳🇱",fecha:"Sáb 27 Jun",hora:"19:00",sede:"Arrowhead, Kansas City",gl:null,gv:null},
+    {g:"F",h:"Japón",hf:"🇯🇵",a:"Suecia",af:"🇸🇪",fecha:"Sáb 27 Jun",hora:"19:00",sede:"AT&T Stadium, Arlington",gl:null,gv:null},
+    {g:"G",h:"Bélgica",hf:"🇧🇪",a:"Egipto",af:"🇪🇬",fecha:"Dom 15 Jun",hora:"15:00",sede:"Lumen Field, Seattle",gl:null,gv:null},
+    {g:"G",h:"Irán",hf:"🇮🇷",a:"Nueva Zelanda",af:"🇳🇿",fecha:"Lun 16 Jun",hora:"21:00",sede:"SoFi Stadium, Inglewood",gl:null,gv:null},
+    {g:"G",h:"Bélgica",hf:"🇧🇪",a:"Irán",af:"🇮🇷",fecha:"Dom 22 Jun",hora:"19:00",sede:"SoFi Stadium, Inglewood",gl:null,gv:null},
+    {g:"G",h:"Nueva Zelanda",hf:"🇳🇿",a:"Egipto",af:"🇪🇬",fecha:"Dom 22 Jun",hora:"21:00",sede:"BC Place, Vancouver",gl:null,gv:null},
+    {g:"G",h:"Nueva Zelanda",hf:"🇳🇿",a:"Bélgica",af:"🇧🇪",fecha:"Sáb 27 Jun",hora:"23:00",sede:"Lumen Field, Seattle",gl:null,gv:null},
+    {g:"G",h:"Egipto",hf:"🇪🇬",a:"Irán",af:"🇮🇷",fecha:"Sáb 27 Jun",hora:"23:00",sede:"BC Place, Vancouver",gl:null,gv:null},
+    {g:"H",h:"España",hf:"🇪🇸",a:"Cabo Verde",af:"🇨🇻",fecha:"Dom 15 Jun",hora:"12:00",sede:"Mercedes-Benz, Atlanta",gl:null,gv:null},
+    {g:"H",h:"Arabia Saudí",hf:"🇸🇦",a:"Uruguay",af:"🇺🇾",fecha:"Lun 16 Jun",hora:"18:00",sede:"Hard Rock, Miami",gl:null,gv:null},
+    {g:"H",h:"España",hf:"🇪🇸",a:"Arabia Saudí",af:"🇸🇦",fecha:"Sáb 21 Jun",hora:"12:00",sede:"Mercedes-Benz, Atlanta",gl:null,gv:null},
+    {g:"H",h:"Uruguay",hf:"🇺🇾",a:"Cabo Verde",af:"🇨🇻",fecha:"Dom 22 Jun",hora:"18:00",sede:"Hard Rock, Miami",gl:null,gv:null},
+    {g:"H",h:"Uruguay",hf:"🇺🇾",a:"España",af:"🇪🇸",fecha:"Sáb 27 Jun",hora:"20:00",sede:"Akron, Zapopan",gl:null,gv:null},
+    {g:"H",h:"Cabo Verde",hf:"🇨🇻",a:"Arabia Saudí",af:"🇸🇦",fecha:"Sáb 27 Jun",hora:"20:00",sede:"NRG Stadium, Houston",gl:null,gv:null},
+    {g:"I",h:"Francia",hf:"🇫🇷",a:"Senegal",af:"🇸🇳",fecha:"Lun 16 Jun",hora:"15:00",sede:"MetLife, Nueva Jersey",gl:null,gv:null},
+    {g:"I",h:"Irak",hf:"🇮🇶",a:"Noruega",af:"🇳🇴",fecha:"Mar 17 Jun",hora:"18:00",sede:"Gillette, Foxborough",gl:null,gv:null},
+    {g:"I",h:"Francia",hf:"🇫🇷",a:"Irak",af:"🇮🇶",fecha:"Dom 22 Jun",hora:"17:00",sede:"Lincoln Financial, Filadelfia",gl:null,gv:null},
+    {g:"I",h:"Noruega",hf:"🇳🇴",a:"Senegal",af:"🇸🇳",fecha:"Lun 23 Jun",hora:"20:00",sede:"MetLife, Nueva Jersey",gl:null,gv:null},
+    {g:"I",h:"Noruega",hf:"🇳🇴",a:"Francia",af:"🇫🇷",fecha:"Vie 26 Jun",hora:"15:00",sede:"Gillette, Foxborough",gl:null,gv:null},
+    {g:"I",h:"Senegal",hf:"🇸🇳",a:"Irak",af:"🇮🇶",fecha:"Vie 26 Jun",hora:"15:00",sede:"BMO Field, Toronto",gl:null,gv:null},
+    {g:"J",h:"Argentina",hf:"🇦🇷",a:"Argelia",af:"🇩🇿",fecha:"Mar 17 Jun",hora:"21:00",sede:"Arrowhead, Kansas City",gl:null,gv:null},
+    {g:"J",h:"Austria",hf:"🇦🇹",a:"Jordania",af:"🇯🇴",fecha:"Mié 18 Jun",hora:"00:00",sede:"Levi's Stadium, Santa Clara",gl:null,gv:null},
+    {g:"J",h:"Argentina",hf:"🇦🇷",a:"Austria",af:"🇦🇹",fecha:"Dom 22 Jun",hora:"13:00",sede:"AT&T Stadium, Arlington",gl:null,gv:null},
+    {g:"J",h:"Jordania",hf:"🇯🇴",a:"Argelia",af:"🇩🇿",fecha:"Lun 23 Jun",hora:"23:00",sede:"Levi's Stadium, Santa Clara",gl:null,gv:null},
+    {g:"J",h:"Jordania",hf:"🇯🇴",a:"Argentina",af:"🇦🇷",fecha:"Dom 28 Jun",hora:"22:00",sede:"Arrowhead, Kansas City",gl:null,gv:null},
+    {g:"J",h:"Argelia",hf:"🇩🇿",a:"Austria",af:"🇦🇹",fecha:"Dom 28 Jun",hora:"22:00",sede:"AT&T Stadium, Arlington",gl:null,gv:null},
+    {g:"K",h:"Portugal",hf:"🇵🇹",a:"R.D. Congo",af:"🇨🇩",fecha:"Mar 17 Jun",hora:"13:00",sede:"NRG Stadium, Houston",gl:null,gv:null},
+    {g:"K",h:"Uzbekistán",hf:"🇺🇿",a:"Colombia",af:"🇨🇴",fecha:"Mié 18 Jun",hora:"22:00",sede:"Azteca, Ciudad de México",gl:null,gv:null},
+    {g:"K",h:"Portugal",hf:"🇵🇹",a:"Uzbekistán",af:"🇺🇿",fecha:"Lun 23 Jun",hora:"13:00",sede:"NRG Stadium, Houston",gl:null,gv:null},
+    {g:"K",h:"Colombia",hf:"🇨🇴",a:"R.D. Congo",af:"🇨🇩",fecha:"Mar 24 Jun",hora:"22:00",sede:"Akron, Zapopan",gl:null,gv:null},
+    {g:"K",h:"Colombia",hf:"🇨🇴",a:"Portugal",af:"🇵🇹",fecha:"Dom 28 Jun",hora:"19:30",sede:"Hard Rock, Miami",gl:null,gv:null},
+    {g:"K",h:"R.D. Congo",hf:"🇨🇩",a:"Uzbekistán",af:"🇺🇿",fecha:"Dom 28 Jun",hora:"19:30",sede:"Mercedes-Benz, Atlanta",gl:null,gv:null},
+    {g:"L",h:"Inglaterra",hf:"🏴󠁧󠁢󠁥󠁮󠁧󠁿",a:"Croacia",af:"🇭🇷",fecha:"Mar 17 Jun",hora:"16:00",sede:"AT&T Stadium, Arlington",gl:null,gv:null},
+    {g:"L",h:"Ghana",hf:"🇬🇭",a:"Panamá",af:"🇵🇦",fecha:"Mié 18 Jun",hora:"19:00",sede:"BMO Field, Toronto",gl:null,gv:null},
+    {g:"L",h:"Inglaterra",hf:"🏴󠁧󠁢󠁥󠁮󠁧󠁿",a:"Ghana",af:"🇬🇭",fecha:"Lun 23 Jun",hora:"16:00",sede:"Gillette, Foxborough",gl:null,gv:null},
+    {g:"L",h:"Panamá",hf:"🇵🇦",a:"Croacia",af:"🇭🇷",fecha:"Mar 24 Jun",hora:"19:00",sede:"BMO Field, Toronto",gl:null,gv:null},
+    {g:"L",h:"Panamá",hf:"🇵🇦",a:"Inglaterra",af:"🏴󠁧󠁢󠁥󠁮󠁧󠁿",fecha:"Dom 28 Jun",hora:"15:00",sede:"SoFi Stadium, Inglewood",gl:null,gv:null},
+    {g:"L",h:"Croacia",hf:"🇭🇷",a:"Ghana",af:"🇬🇭",fecha:"Dom 28 Jun",hora:"15:00",sede:"Lumen Field, Seattle",gl:null,gv:null}
+  ],
+  elim:[
+    {fase:"r16",label:"Partido 1",h:null,hf:"🏳️",a:null,af:"🏳️",fecha:"Mié 2 Jul",hora:"Por definir",sede:"Los Ángeles",gl:null,gv:null,avanza:null},
+    {fase:"r16",label:"Partido 2",h:null,hf:"🏳️",a:null,af:"🏳️",fecha:"Jue 3 Jul",hora:"Por definir",sede:"Miami",gl:null,gv:null,avanza:null},
+    {fase:"r16",label:"Partido 3",h:null,hf:"🏳️",a:null,af:"🏳️",fecha:"Jue 3 Jul",hora:"Por definir",sede:"Dallas",gl:null,gv:null,avanza:null},
+    {fase:"r16",label:"Partido 4",h:null,hf:"🏳️",a:null,af:"🏳️",fecha:"Vie 4 Jul",hora:"Por definir",sede:"Seattle",gl:null,gv:null,avanza:null},
+    {fase:"r16",label:"Partido 5",h:null,hf:"🏳️",a:null,af:"🏳️",fecha:"Vie 4 Jul",hora:"Por definir",sede:"Toronto",gl:null,gv:null,avanza:null},
+    {fase:"r16",label:"Partido 6",h:null,hf:"🏳️",a:null,af:"🏳️",fecha:"Sáb 5 Jul",hora:"Por definir",sede:"Atlanta",gl:null,gv:null,avanza:null},
+    {fase:"r16",label:"Partido 7",h:null,hf:"🏳️",a:null,af:"🏳️",fecha:"Sáb 5 Jul",hora:"Por definir",sede:"Kansas City",gl:null,gv:null,avanza:null},
+    {fase:"r16",label:"Partido 8",h:null,hf:"🏳️",a:null,af:"🏳️",fecha:"Dom 6 Jul",hora:"Por definir",sede:"Houston",gl:null,gv:null,avanza:null},
+    {fase:"r16",label:"Partido 9",h:null,hf:"🏳️",a:null,af:"🏳️",fecha:"Dom 6 Jul",hora:"Por definir",sede:"Vancouver",gl:null,gv:null,avanza:null},
+    {fase:"r16",label:"Partido 10",h:null,hf:"🏳️",a:null,af:"🏳️",fecha:"Lun 7 Jul",hora:"Por definir",sede:"Nueva Jersey",gl:null,gv:null,avanza:null},
+    {fase:"r16",label:"Partido 11",h:null,hf:"🏳️",a:null,af:"🏳️",fecha:"Lun 7 Jul",hora:"Por definir",sede:"San Francisco",gl:null,gv:null,avanza:null},
+    {fase:"r16",label:"Partido 12",h:null,hf:"🏳️",a:null,af:"🏳️",fecha:"Mar 8 Jul",hora:"Por definir",sede:"Filadelfia",gl:null,gv:null,avanza:null},
+    {fase:"r16",label:"Partido 13",h:null,hf:"🏳️",a:null,af:"🏳️",fecha:"Mar 8 Jul",hora:"Por definir",sede:"Seattle",gl:null,gv:null,avanza:null},
+    {fase:"r16",label:"Partido 14",h:null,hf:"🏳️",a:null,af:"🏳️",fecha:"Mié 9 Jul",hora:"Por definir",sede:"Dallas",gl:null,gv:null,avanza:null},
+    {fase:"r16",label:"Partido 15",h:null,hf:"🏳️",a:null,af:"🏳️",fecha:"Mié 9 Jul",hora:"Por definir",sede:"Los Ángeles",gl:null,gv:null,avanza:null},
+    {fase:"r16",label:"Partido 16",h:null,hf:"🏳️",a:null,af:"🏳️",fecha:"Jue 10 Jul",hora:"Por definir",sede:"Miami",gl:null,gv:null,avanza:null},
+    {fase:"r8",label:"Partido 1",h:null,hf:"🏳️",a:null,af:"🏳️",fecha:"Dom 6 Jul",hora:"Por definir",sede:"Los Ángeles",gl:null,gv:null,avanza:null},
+    {fase:"r8",label:"Partido 2",h:null,hf:"🏳️",a:null,af:"🏳️",fecha:"Lun 7 Jul",hora:"Por definir",sede:"Atlanta",gl:null,gv:null,avanza:null},
+    {fase:"r8",label:"Partido 3",h:null,hf:"🏳️",a:null,af:"🏳️",fecha:"Lun 7 Jul",hora:"Por definir",sede:"Dallas",gl:null,gv:null,avanza:null},
+    {fase:"r8",label:"Partido 4",h:null,hf:"🏳️",a:null,af:"🏳️",fecha:"Mar 8 Jul",hora:"Por definir",sede:"Kansas City",gl:null,gv:null,avanza:null},
+    {fase:"r8",label:"Partido 5",h:null,hf:"🏳️",a:null,af:"🏳️",fecha:"Mar 8 Jul",hora:"Por definir",sede:"Miami",gl:null,gv:null,avanza:null},
+    {fase:"r8",label:"Partido 6",h:null,hf:"🏳️",a:null,af:"🏳️",fecha:"Mié 9 Jul",hora:"Por definir",sede:"Seattle",gl:null,gv:null,avanza:null},
+    {fase:"r8",label:"Partido 7",h:null,hf:"🏳️",a:null,af:"🏳️",fecha:"Mié 9 Jul",hora:"Por definir",sede:"Houston",gl:null,gv:null,avanza:null},
+    {fase:"r8",label:"Partido 8",h:null,hf:"🏳️",a:null,af:"🏳️",fecha:"Jue 10 Jul",hora:"Por definir",sede:"Nueva Jersey",gl:null,gv:null,avanza:null},
+    {fase:"r4",label:"Partido 1",h:null,hf:"🏳️",a:null,af:"🏳️",fecha:"Jue 10 Jul",hora:"Por definir",sede:"Los Ángeles",gl:null,gv:null,avanza:null},
+    {fase:"r4",label:"Partido 2",h:null,hf:"🏳️",a:null,af:"🏳️",fecha:"Vie 11 Jul",hora:"Por definir",sede:"Kansas City",gl:null,gv:null,avanza:null},
+    {fase:"r4",label:"Partido 3",h:null,hf:"🏳️",a:null,af:"🏳️",fecha:"Vie 11 Jul",hora:"Por definir",sede:"Atlanta",gl:null,gv:null,avanza:null},
+    {fase:"r4",label:"Partido 4",h:null,hf:"🏳️",a:null,af:"🏳️",fecha:"Sáb 12 Jul",hora:"Por definir",sede:"Dallas",gl:null,gv:null,avanza:null},
+    {fase:"r2",label:"Semifinal 1",h:null,hf:"🏳️",a:null,af:"🏳️",fecha:"Lun 14 Jul",hora:"Por definir",sede:"Dallas",gl:null,gv:null,avanza:null},
+    {fase:"r2",label:"Semifinal 2",h:null,hf:"🏳️",a:null,af:"🏳️",fecha:"Mar 15 Jul",hora:"Por definir",sede:"Atlanta",gl:null,gv:null,avanza:null},
+    {fase:"r1b",label:"3er lugar",h:null,hf:"🏳️",a:null,af:"🏳️",fecha:"Sáb 18 Jul",hora:"Por definir",sede:"Miami",gl:null,gv:null,avanza:null},
+    {fase:"final",label:"Gran Final",h:null,hf:"🏳️",a:null,af:"🏳️",fecha:"Dom 19 Jul",hora:"Por definir",sede:"MetLife, Nueva Jersey",gl:null,gv:null,avanza:null}
+  ]
+};
+
+// ─────────────────────────────────────────────────────────────────────────────
+// APP
+// ─────────────────────────────────────────────────────────────────────────────
+const PHASES_ELIM = [
+  {id:"r16",label:"16avos"},
+  {id:"r8",label:"8vos"},
+  {id:"r4",label:"Cuartos"},
+  {id:"r2",label:"Semifinales"},
+  {id:"r1b",label:"3er Lugar"},
+  {id:"final",label:"Final"},
+];
+const PHASES_GRUPOS = [...new Set(PARTIDOS.grupos.map(p=>p.g))];
+let activeGrupoPartidos="A", activeGruposPron="A", activeElimPartidos="r16", activeElimPron="r16";
+let viendoGrupos=true, viendoGruposPron=true;
+
+function showPage(id,btn){
+  document.querySelectorAll('.page').forEach(p=>p.classList.remove('on'));
+  document.querySelectorAll('.nb').forEach(b=>b.classList.remove('on'));
+  document.getElementById('page-'+id).classList.add('on');
+  if(btn) btn.classList.add('on');
+  if(id==='partidos') renderPartidos();
+  if(id==='pronosticos') renderPron();
+  if(id==='ranking') renderRanking();
+}
+
+function calcTotal(p){ return (p.partidos||0)+(p.grupos||0)+(p.avances||0)+(p.especiales||0); }
+
+function renderRanking(){
+  const d=DATOS;
+  document.getElementById('badge-fase').textContent=d.faseActual||'Previo al torneo';
+  const parts=[...d.participantes].sort((a,b)=>calcTotal(b)-calcTotal(a));
+  const jugados=d.resultados ? d.resultados.length : 0;
+  const leader=parts[0];
+  document.getElementById('stats-wrap').innerHTML=`
+    <div class="sc"><div class="sl">Participantes</div><div class="sv">${d.participantes.length}</div></div>
+    <div class="sc"><div class="sl">Partidos jugados</div><div class="sv">${jugados}</div></div>
+    <div class="sc"><div class="sl">Líder</div><div class="sv" style="font-size:1.2rem">${leader?leader.nombre:'—'}</div></div>
+    <div class="sc"><div class="sl">Puntos lider</div><div class="sv g">${leader?calcTotal(leader):0}</div></div>`;
+  if(!parts.length){
+    document.getElementById('ranking-wrap').innerHTML='<div class="empty"><span class="ei">🏆</span>El torneo aún no ha comenzado.</div>';
+    return;
+  }
+  const medals=['🥇','🥈','🥉'];
+  const rcs=['r1','r2','r3'];
+  document.getElementById('ranking-wrap').innerHTML=parts.map((p,i)=>{
+    const t=calcTotal(p), rc=rcs[i]||'', pos=i<3?medals[i]:i+1;
+    return `<div class="ri ${rc}">
+      <div class="rpos">${pos}</div>
+      <div>
+        <div class="rname">${p.nombre}</div>
+        <div class="rbr">
+          <span>⚽ Partidos: <b>${p.partidos||0}</b></span>
+          <span>📊 Grupos: <b>${p.grupos||0}</b></span>
+          <span>➡️ Avances: <b>${p.avances||0}</b></span>
+          <span>⭐ Especiales: <b>${p.especiales||0}</b></span>
+        </div>
+      </div>
+      <div class="rpt"><div class="pn">${t}</div><div class="pl">puntos</div></div>
+    </div>`;
+  }).join('');
+}
+
+function buildPhaseTabs(containerId, groups, elims, activeG, activeE, isGrupos, fnG, fnE){
+  let html='';
+  html+=`<button class="pb ${isGrupos?'on':''}" onclick="${fnG}()">Por Grupo</button>`;
+  if(isGrupos){
+    groups.forEach(g=>{ html+=`<button class="pb ${activeG===g?'on':''}" onclick="${fnG}('${g}')">${g}</button>`; });
+  } else {
+    html+=`<button class="pb" onclick="${fnG}()">Grupos</button>`;
+    elims.forEach(e=>{ html+=`<button class="pb ${activeE===e.id?'on':''}" onclick="${fnE}('${e.id}')">${e.label}</button>`; });
+  }
+  document.getElementById(containerId).innerHTML=html;
+}
+
+function switchPartidosGrupos(g){
+  if(g===undefined){ viendoGrupos=true; activeGrupoPartidos="A"; }
+  else { viendoGrupos=true; activeGrupoPartidos=g; }
+  renderPartidos();
+}
+function switchPartidosElim(fase){
+  viendoGrupos=false; activeElimPartidos=fase;
+  renderPartidos();
+}
+function switchPronGrupos(g){
+  if(g===undefined){ viendoGruposPron=true; activeGruposPron="A"; }
+  else { viendoGruposPron=true; activeGruposPron=g; }
+  renderPron();
+}
+function switchPronElim(fase){
+  viendoGruposPron=false; activeElimPron=fase;
+  renderPron();
+}
+
+function matchCard(m, showResult){
+  const hName=m.h||'Por definir'; const aName=m.a||'Por definir';
+  const hFlag=m.hf||'🏳️'; const aFlag=m.af||'🏳️';
+  const played=m.gl!==null&&m.gl!==undefined&&m.gv!==null&&m.gv!==undefined;
+  const cls=played?'mc played':'mc';
+  let centerHtml='';
+  if(played && showResult){
+    centerHtml=`<div class="score-box"><span class="sn">${m.gl}</span><span class="ss">-</span><span class="sn">${m.gv}</span></div>
+      <div class="time-box"><span style="font-size:10px;color:var(--verde)">✓ Jugado</span></div>`;
+  } else {
+    centerHtml=`<div class="score-box" style="background:transparent;border:1px solid var(--borde)">
+      <span class="sn" style="color:var(--muted);font-size:1rem">vs</span></div>
+      <div class="time-box"><span class="t">${m.hora}</span><br><span class="venue">${m.fecha}</span>
+      <br><span class="venue">${m.sede||''}</span></div>`;
+  }
+  return `<div class="${cls}">
+    <div class="team-l"><span class="team-flag">${hFlag}</span><span class="team-name">${hName}</span></div>
+    <div class="mc-center">${centerHtml}</div>
+    <div class="team-r"><span class="team-flag">${aFlag}</span><span class="team-name">${aName}</span></div>
+  </div>`;
+}
+
+function renderPartidos(){
+  buildPhaseTabs('phase-bar-partidos',PHASES_GRUPOS,PHASES_ELIM,activeGrupoPartidos,activeElimPartidos,viendoGrupos,'switchPartidosGrupos','switchPartidosElim');
+  const wrap=document.getElementById('partidos-wrap');
+  let html='<div class="matches-wrap">';
+  if(viendoGrupos){
+    const matches=PARTIDOS.grupos.filter(p=>p.g===activeGrupoPartidos);
+    const j1=matches.slice(0,2), j2=matches.slice(2,4), j3=matches.slice(4,6);
+    [[j1,'Jornada 1'],[j2,'Jornada 2'],[j3,'Jornada 3']].forEach(([ms,lbl])=>{
+      html+=`<div class="phase-hdr">Grupo ${activeGrupoPartidos} — ${lbl}</div>`;
+      ms.forEach(m=>{ html+=matchCard(m,true); });
+    });
+  } else {
+    const matches=PARTIDOS.elim.filter(p=>p.fase===activeElimPartidos);
+    const ph=PHASES_ELIM.find(p=>p.id===activeElimPartidos);
+    html+=`<div class="phase-hdr">${ph?ph.label:activeElimPartidos}</div>`;
+    matches.forEach(m=>{ html+=matchCard(m,true); });
+  }
+  html+='</div>';
+  wrap.innerHTML=html;
+}
+
+function renderPron(){
+  buildPhaseTabs('phase-bar-pron',PHASES_GRUPOS,PHASES_ELIM,activeGruposPron,activeElimPron,viendoGruposPron,'switchPronGrupos','switchPronElim');
+  const parts=DATOS.participantes;
+  if(!parts||!parts.length){
+    document.getElementById('pronosticos-wrap').innerHTML='<div class="empty"><span class="ei">📋</span>No hay participantes aún.</div>';
+    return;
+  }
+  let matches;
+  if(viendoGruposPron){ matches=PARTIDOS.grupos.filter(p=>p.g===activeGruposPron); }
+  else { matches=PARTIDOS.elim.filter(p=>p.fase===activeElimPron); }
+
+  const heads=`<thead><tr>
+    <th class="partido">Partido</th>
+    <th>Resultado</th>
+    ${parts.map(p=>`<th>${p.nombre}</th>`).join('')}
+  </tr></thead>`;
+
+  let rows='';
+  matches.forEach(m=>{
+    const hName=m.h||'Local'; const aName=m.a||'Visitante';
+    const played=m.gl!==null&&m.gl!==undefined;
+    const realH=played?parseInt(m.gl):null, realA=played?parseInt(m.gv):null;
+    const realW=realH!==null?(realH>realA?'h':realH<realA?'a':'d'):null;
+    const key=m.label||`${hName}-${aName}`;
+    rows+=`<tr>
+      <td class="partido-cell">${m.hf||''}${hName} vs ${m.af||''}${aName}<br><span style="font-size:10px;color:var(--muted)">${m.fecha} ${m.hora}</span></td>
+      <td>${played?`<span class="sd real">${realH}-${realA}</span>`:'<span style="color:var(--muted)">—</span>'}</td>
+      ${parts.map(p=>{
+        const pred=p.pronosticos&&p.pronosticos[key];
+        if(!pred) return '<td><span style="color:var(--muted2)">—</span></td>';
+        const pH=parseInt(pred[0]), pA=parseInt(pred[1]);
+        const predW=pH>pA?'h':pH<pA?'a':'d';
+        let pts=0, cls='';
+        if(realW){ if(predW===realW)pts+=3; if(pH===realH)pts+=1; if(pA===realA)pts+=1; cls=pts>=3?'hit3':pts>0?'hit1':''; }
+        return `<td class="${cls}"><span class="sd">${pH}-${pA}</span>${pts>0?`<br><span class="pts-b">+${pts}</span>`:''}${!played?'':''}</td>`;
+      }).join('')}
+    </tr>`;
+  });
+  document.getElementById('pronosticos-wrap').innerHTML=`<div class="ptbl-wrap"><table class="ptbl">${heads}<tbody>${rows}</tbody></table></div>`;
+}
+
+// Init
+renderRanking();
+renderPartidos();
+</script>
+</body>
+</html>
